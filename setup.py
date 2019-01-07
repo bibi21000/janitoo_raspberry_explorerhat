@@ -58,14 +58,14 @@ data_files_config(data_files, 'docs','src/docs/','*')
 #It will be used to collect entries without installing the package
 janitoo_entry_points = {
     "janitoo.threads": [
-        "rpii2c = janitoo_raspberry_i2c.thread_i2c:make_thread",
+        "rpiexphat = janitoo_raspberry_phat.thread_explorerhat:make_thread",
     ],
 }
 
 setup(
-    name = 'janitoo_raspberry_i2c',
-    description = "A server which handle many controller (hardware, onewire, i2c, ...) dedicated to the raspberry",
-    long_description = "A server which handle many controller (hardware, onewire, i2c, ...) dedicated to the raspberry",
+    name = 'janitoo_raspberry_explorerhat',
+    description = "A server which handle Pimoroni Explorer pHAT dedicated to the raspberry zero",
+    long_description = "A server which handle Pimoroni Explorer pHAT dedicated to the raspberry zero",
     author='Sébastien GALLET aka bibi2100 <bibi21000@gmail.com>',
     author_email='bibi21000@gmail.com',
     url='http://bibi21000.gallet.info/',
@@ -95,15 +95,13 @@ setup(
     install_requires=[
                      'janitoo',
                      'janitoo_raspberry',
-                     'Adafruit-GPIO',
-                     'Adafruit-PureIO',
+                     'explorerhat',
                     ],
     dependency_links = [
       'https://github.com/bibi21000/janitoo/archive/master.zip#egg=janitoo',
       'https://github.com/bibi21000/janitoo_raspberry/archive/master.zip#egg=janitoo_raspberry',
       'https://github.com/bibi21000/janitoo_raspberry_gpio/archive/master.zip#egg=janitoo_raspberry_gpio',
-      'https://github.com/adafruit/Adafruit_Python_GPIO/archive/master.zip#egg=Adafruit-GPIO',
-      'https://github.com/adafruit/Adafruit_Python_PureIO/archive/master.zip#egg=Adafruit-PureIO',
+      'https://github.com/pimoroni/explorer-hat/archive/master.zip#explorerhat',
     ],
     entry_points = janitoo_entry_points,
 )

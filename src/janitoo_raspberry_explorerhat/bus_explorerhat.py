@@ -39,9 +39,9 @@ from janitoo.component import JNTComponent
 from janitoo.thread import BaseThread
 from janitoo.options import get_option_autostart
 
-import Adafruit_GPIO.I2C as I2C
+# ~ import Adafruit_GPIO.I2C as I2C
 
-from janitoo_raspberry_i2c import OID
+from janitoo_raspberry_explorerhat import OID
 
 ##############################################################
 #Check that we are in sync with the official command classes
@@ -59,7 +59,7 @@ assert(COMMAND_DESC[COMMAND_CAMERA_VIDEO] == 'COMMAND_CAMERA_VIDEO')
 assert(COMMAND_DESC[COMMAND_CAMERA_STREAM] == 'COMMAND_CAMERA_STREAM')
 ##############################################################
 
-class I2CBus(JNTBus):
+class ExplorerHatBus(JNTBus):
     """A pseudo-bus to handle the Raspberry I2C Bus
     """
 
@@ -68,20 +68,20 @@ class I2CBus(JNTBus):
         :param int bus_id: the SMBus id (see Raspberry Pi documentation)
         :param kwargs: parameters transmitted to :py:class:`smbus.SMBus` initializer
         """
-        self.kernel_modprobe('i2c-dev')
-        self.kernel_modprobe('i2c-bcm2708')
-        JNTBus.__init__(self, **kwargs)
-        self._i2c_lock = threading.Lock()
-        self.load_extensions(OID)
-        self._ada_i2c = I2C
-        """ The shared ADAFruit I2C bus """
-        self.export_attrs('i2c_acquire', self.i2c_acquire)
-        self.export_attrs('i2c_release', self.i2c_release)
-        self.export_attrs('get_i2c_device', self.get_i2c_device)
-        self.export_attrs('get_busnum', self.get_busnum)
-        self.export_attrs('get_adafruit_i2c', self.get_adafruit_i2c)
-        self.export_attrs('software_reset', self.software_reset)
-        self.export_attrs('require_repeated_start', self.require_repeated_start)
+        # ~ self.kernel_modprobe('i2c-dev')
+        # ~ self.kernel_modprobe('i2c-bcm2708')
+        # ~ JNTBus.__init__(self, **kwargs)
+        # ~ self._i2c_lock = threading.Lock()
+        # ~ self.load_extensions(OID)
+        # ~ self._ada_i2c = I2C
+        # ~ """ The shared ADAFruit I2C bus """
+        # ~ self.export_attrs('i2c_acquire', self.i2c_acquire)
+        # ~ self.export_attrs('i2c_release', self.i2c_release)
+        # ~ self.export_attrs('get_i2c_device', self.get_i2c_device)
+        # ~ self.export_attrs('get_busnum', self.get_busnum)
+        # ~ self.export_attrs('get_adafruit_i2c', self.get_adafruit_i2c)
+        # ~ self.export_attrs('software_reset', self.software_reset)
+        # ~ self.export_attrs('require_repeated_start', self.require_repeated_start)
 
         uuid="%s_busnum"%OID
         self.values[uuid] = self.value_factory['config_integer'](options=self.options, uuid=uuid,
@@ -91,13 +91,13 @@ class I2CBus(JNTBus):
             default=None,
         )
 
-    def i2c_acquire(self, blocking=True):
+    def exphat_acquire(self, blocking=True):
         """Get a lock on the bus"""
         if self._i2c_lock.acquire(blocking):
             return True
         return False
 
-    def i2c_release(self):
+    def exphat_release(self):
         """Release a lock on the bus"""
         self._i2c_lock.release()
 
@@ -107,11 +107,11 @@ class I2CBus(JNTBus):
             return self._ada_i2c.get_default_bus()
         return self.values["%s_busnum"%OID].data
 
-    def get_adafruit_i2c(self):
+    def get_adafruit_exphat(self):
         """Get the I2C interface from adafruit"""
         return self._ada_i2c
 
-    def get_i2c_device(self, address, **kwargs):
+    def get_exphat_device(self, address, **kwargs):
         """Get the device at address"""
         return self._ada_i2c.get_i2c_device(address, busnum=self.get_busnum(), i2c_interface=self._ada_i2c, **kwargs )
 
