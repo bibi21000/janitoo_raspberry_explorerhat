@@ -70,7 +70,7 @@ class ExplorerHatBus(JNTBus):
         """
         # ~ self.kernel_modprobe('i2c-dev')
         # ~ self.kernel_modprobe('i2c-bcm2708')
-        # ~ JNTBus.__init__(self, **kwargs)
+        JNTBus.__init__(self, **kwargs)
         # ~ self._i2c_lock = threading.Lock()
         # ~ self.load_extensions(OID)
         # ~ self._ada_i2c = I2C
